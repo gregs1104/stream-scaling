@@ -1,7 +1,7 @@
 Introduction
 ============
 
-stream-scaling automates running the STREAM memory bandwidth
+``stream-scaling`` automates running the STREAM memory bandwidth
 test on Linux systems.  It detects the number of CPUs and
 how large each of their caches are.  The program then
 downloads STREAM, compiles it, and runs it with an array
@@ -26,8 +26,8 @@ using gcc 4.2 or later, as the OpenMP libraries are required.
 Sample result
 =============
 
-This sample is from an Intel 860 processor, featuring 4 real cores with
-HyperThreading for a total of 8 virtual cores, as well as the Turbo feature
+This sample is from an Intel i7 860 processor, featuring 4 real cores with
+Hyper Threading for a total of 8 virtual cores.  It also features the Turbo feature
 to accelerate running with low core counts.  Memory is 4 X 2GB DDR-1600::
 
     $ ./stream-scaling 
@@ -145,10 +145,12 @@ to accelerate running with low core counts.  Memory is 4 X 2GB DDR-1600::
     Triad:      13230.8312       0.0575       0.0573       0.0583
 
 Like many of the post-Nehalem Intel processors, this system gets
-quite good memory bandwidth even when running a single thread.
-And it's almost reached saturation of all available bandwidth
-with only two threads active, which is good for a system with
-this many cores.
+quite good memory bandwidth even when running a single thread,
+with the Turbo feature helping a bit too.  And it's almost reached
+saturation of all available bandwidth with only two threads active,
+which is good for a system with this many cores; they don't all
+have to be doing something to take advantage of all the memory
+on this server.
 
 Results database
 ================
@@ -167,21 +169,23 @@ Here are some sample results from the program, showing how memory speeds
 have marched forward as the industry moved from slower DDR2 to increasingly
 fast DDR3.
 
-* T7200:  Intel Core2 T7200.  32K Data and Instruction L1 caches, 4096K L2 cache
-* X2 4600+:  AMD Athlon 64 X2 4600+.  64K Data and Instruction L1 caches, 512K L2 cache
-* Q6600:  Intel Q6600.  32KB Data and Instruction L1 caches, 4096K L2 cache.
-* E5506:  Intel Xeon E5506 2.13GHz.  32K Data and Instruction L1 caches, 256K L2 cache, 4096K L3 cache.
-* i860: Intel Core i7 860.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.
+* T7200:  Intel Core2 T7200.  Dual core.  32K Data and Instruction L1 caches, 4096K L2 cache.
+* X2 4600+:  AMD Athlon 64 X2 4600+.  Dual core.  64K Data and Instruction L1 caches, 512K L2 cache.  4 X 2GB RAM.
+* Q6600:  Intel Q6600.  Quad core.  32KB Data and Instruction L1 caches, 4096K L2 cache.  4 X 2GB RAM.
+* E5506:  Intel Xeon E5506 2.13GHz.  Quad core.  32K Data and Instruction L1 caches, 256K L2 cache, 4096K L3 cache.
+* i860: Intel Core i7 860.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  4 X 2GB RAM.
+* 8 X 8431:  AMD Opteron 8431  6 cores each, 8 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  256GB RAM.
 
-========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== ======  
+========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 Processor Cores Clock  Memory    1 Core 2     3     4     8     16    24    32    48
-========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== ======  
+========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 T7200     2     2.0GHz DDR2/667  2965   3084
 X2 4600+  2     2.4GHz DDR2/800  3657   4460
 Q6600     4     2.4GHz DDR2/800  4383   4537  4480  4390
+8 X 8431  48    2.4GHz DDR2/800  4038   7996  11918 13520 23658 22801 23688 24522 27214
 E5506     4     2.1GHz DDR3/800  7826   9016  9273  9297
 i860      8     2.8GHz DDR3/1600 9664   13096 13959 14293 13231
-========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== ======  
+========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 
 Todo
 ====
@@ -197,7 +201,7 @@ Todo
 Bugs
 ====
 
-There aren't any known bugs.
+There aren't any known bugs, just limitations.
 
 Documentation
 =============

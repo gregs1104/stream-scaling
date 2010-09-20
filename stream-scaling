@@ -1,0 +1,225 @@
+#!/bin/bash
+
+# Automated download, compile, and run of the stream memory bandwidth
+# test to show memory scaling as number of CPU cores increases.
+#
+# Takes a single optional parameter input for the maximum number of
+# cores to test.  Defaults to 8, unless this is a system where it can
+# determine that information from /proc/cpuinfo  It will very likely
+# guess correctly on Linux for example.
+#
+# Compiling stream on mainstream Linux systems requires gcc 4.2
+# for the OpenMP libraries used here to be available.
+#
+# The default way stream is compiled, it operates on a array of
+# 2,000,000 elements taking up approximately 46MB of RAM.  If the
+# total amount of processor cache on your system exceeds this amount,
+# that means more of the data will fit in cache than intended, and
+# the results will be inflated.  Accordingly, this cache size is
+# estimated (in a way that only works on Linux), and the size of
+# the array used is increased to be twice as large as that total.
+
+#
+# Determine maximum cores to test
+#
+
+if [ -n "$1" ] ; then
+  MAX_CORES="$1"
+elif [ -f "/proc/cpuinfo" ] ; then
+  MAX_CORES=`grep -c processor /proc/cpuinfo`
+fi  
+
+if [ -z "$MAX_CORES" ] ; then
+  # Might as well have a default bigger than most systems ship with
+  # if all else fails
+  MAX_CORES=8
+fi
+
+# Uncomment this to get verbose output of every stream run
+# By default, the first one includes full details, while later
+# ones only show the Triad output and a confirmation of
+# core count
+#VERBOSE=1
+
+# Uncomment to show more debugging output
+#DEBUG=1
+
+function total_cache_size {
+# Total up all of the non-instructional caches for every CPU
+# on the system.
+#
+# Takes one input:  the name of the variable to save the computed
+# total cache size to.  Used bash eval track to pass that back.
+# Value returned is in bytes.
+#
+# Inside of /sys/devices/system/cpu/cpu0/cache/ are a series of
+# files named index[0..n] that represent each of the layers of
+# cache on this CPU.  Each is labeled with a level, size, and
+# type, contained in files with those names.  Valid types include 
+# "Instruction", "Data", and "Unified".  Typical levels are 1
+# through 3.  And sizes vary, but are always listed in values
+# ending with "K".
+
+  local  __resultvar=$1
+  local TOTAL_CACHE_KB=0
+  for C in /sys/devices/system/cpu/cpu*
+  do
+    for I in $C/cache/index*
+    do
+      if [ ! -f $I/size ] ; then
+        continue
+        fi
+      local LEVEL=`cat $I/level`
+      local CACHE=`cat $I/size`
+      local TYPE=`cat $I/type`
+      echo CPU $C Level $LEVEL Cache: $CACHE \($TYPE\)
+      if [ "$TYPE" = "Instruction" ] ; then
+        # Don't count instruction caches, just data & unified
+        continue
+      fi
+  
+      # Check the last character of the string to make
+      # sure it's "K"; if not, we don't know what
+      # we're looking at here    
+      local KB=`expr "$CACHE" : '.*\(.\)'`
+      if [ "$KB" = "K" ] ; then
+        # Parse just the digits here
+        local K=${CACHE%K}
+        ((TOTAL_CACHE_KB = TOTAL_CACHE_KB + K))
+      else
+        echo Error:  can\'t interpret format of CPU cache information in $I/size
+        return
+      fi
+    done
+  done
+  ((TOTAL_CACHE = TOTAL_CACHE_KB * 1024))
+  eval $__resultvar="'$TOTAL_CACHE'"
+}
+
+function simple_cache_size {
+  # Original, simpler cache size computation.  Doesn't give accurate
+  # results at all on processors with L3 caches.  Intel CPUs will
+  # typically publish that size into /proc/cpuinfo, while some
+  # AMD processors with large L3 caches will instead publish
+  # their L2 cache size to there.  Ultimately this is a better approach
+  # anyway, because it will sum all of the various cache levels,
+  # rather than just using the one that get published to the CPU
+  # summary value.
+  #
+  # Left here as example code, in case some future processors that
+  # provide cache info in /proc/cpuinfo but not /sys/devices/system/cpu
+  # turn up.
+  local TOTAL_CACHE_KB=0
+  for cache in `grep "cache size" /proc/cpuinfo | cut -d":" -f 2 | cut -d" " -f 2`
+  do
+    if [ -n "$cache" ] ; then
+      ((TOTAL_CACHE_KB = TOTAL_CACHE_KB + cache))
+    fi
+  done
+  # Convert this from its unit of kilobytes into regular bytes, because "MB"
+  # figures from stream are 1M, not 2^20
+  local TOTAL_CACHE
+  ((TOTAL_CACHE = TOTAL_CACHE_KB * 1024))
+  eval $__resultvar="'$TOTAL_CACHE'"
+}
+
+#
+# stream_array_elements determines how large the array stream
+# runs against needs to be to avoid caching effects.
+#
+# Takes one input:  the name of the variable to save the needed
+# array size to.
+#
+function stream_array_elements {
+  # Bash normally doesn't let functions return values usefully.
+  # This and below eval __resultvar let it set variables outside
+  # of the function more cleanly than using globals here.
+  local  __resultvar=$1
+  local NEEDED_SIZE=2000000
+
+  total_cache_size TOTAL_CACHE
+
+  if [ -z "$TOTAL_CACHE" ] ; then
+    echo Unable to guess cache size on this system.  Using default.
+    NEEDED_SIZE = 2000000
+    eval $__resultvar="'$NEEDED_SIZE'"
+    return
+  fi
+  
+  echo Total CPU system cache:  $TOTAL_CACHE bytes
+
+  # We know that every 1 million array entries in stream produces approximately
+  # 22 million bytes (not megabytes!) of data.  Round that down to make more
+  # entries required.  And then increase the estimated sum of cache sizes by
+  # an order of magnitude to compute how large the array should be, to make
+  # sure cache effects are minimized.
+
+  local BYTES_PER_ARRAY_ENTRY=22
+  ((NEEDED_SIZE = 10 * TOTAL_CACHE / BYTES_PER_ARRAY_ENTRY))
+
+  echo Computed minimum array elements needed:  $NEEDED_SIZE
+
+  if [ $NEEDED_SIZE -lt 2000000 ] ; then
+    NEEDED_SIZE=2000000
+  fi
+
+  echo Minimum array elements used:  $NEEDED_SIZE
+  eval $__resultvar="'$NEEDED_SIZE'"
+  return
+}
+
+#
+# Execute cache size estimations
+#
+
+echo === CPU cache information ===
+stream_array_elements ARRAY_SIZE
+ARRAY_FLAG="-DN=$ARRAY_SIZE"
+if [ -n "$DEBUG" ] ; then
+  echo Array size is $ARRAY_SIZE
+  echo Array flag is $ARRAY_FLAG
+fi
+
+#
+# Download and compile stream
+#
+
+echo
+echo === Check and possibly build stream ===
+if [ ! -f stream.c ] ; then
+  wget http://www.cs.virginia.edu/stream/FTP/Code/stream.c
+fi
+
+if [ ! -x stream ] ; then
+  gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream
+fi
+
+if [ ! -x stream ] ; then
+  echo Error:  did not find valid stream program compiled here, aborting
+  exit 1
+fi
+
+#
+# Run the test
+#
+
+echo
+echo === Testing up to $MAX_CORES cores ===
+echo
+
+i=1
+while [[ $i -le $MAX_CORES ]] ; do
+  export OMP_NUM_THREADS="$i"
+
+  if [ -n "$VERBOSE" ] ; then
+    ./stream
+  elif [ "$i" -eq 1 ] ; then
+    ./stream
+  else
+    # Show just a summary after the first line.
+    ./stream | egrep "Number of Threads requested|Function|Triad"
+  fi
+
+  ((i++))
+  echo
+done

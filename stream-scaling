@@ -185,14 +185,20 @@ fi
 #
 
 echo
-echo === Check and possibly build stream ===
+echo === Check and build stream ===
 if [ ! -f stream.c ] ; then
   wget http://www.cs.virginia.edu/stream/FTP/Code/stream.c
 fi
 
-if [ ! -x stream ] ; then
-  gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream
+# Since the array size is fixed at compile time, we have to
+# recompile it each time, in case the binary already there
+# was generated on a system with a smaller cache
+
+if [ -f stream ] ; then
+  rm stream
 fi
+
+gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream
 
 if [ ! -x stream ] ; then
   echo Error:  did not find valid stream program compiled here, aborting

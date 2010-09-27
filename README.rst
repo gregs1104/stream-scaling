@@ -167,11 +167,15 @@ Preliminary Samples
 
 Here are some sample results from the program, showing how memory speeds
 have marched forward as the industry moved from slower DDR2 to increasingly
-fast DDR3.
+fast DDR3.  They also demonstrate why AMD was able to limp along with slower
+RAM for so long in their multi-socket configurations.  While no single core
+gets great bandwidth, when the server is fully loaded the aggregate amount
+can be impressive.
 
 * T7200:  Intel Core2 T7200.  Dual core.  32K Data and Instruction L1 caches, 4096K L2 cache.
 * 4 X 8347:  AMD Opteron 8347 HE.  Quad core, 4 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 2048K L3 cache.  32 X 2GB DDR2-667.
 * X2 4600+:  AMD Athlon 64 X2 4600+.  Dual core.  64K Data and Instruction L1 caches, 512K L2 cache.  4 X 2GB RAM.
+* 2 X 280:  Amd Opteron 280.  Dual core, 2 sockets.  64K Data and Instruction L1 caches, 1024K L2 cache.  8 X 1GB DDR2-800.
 * Q6600:  Intel Q6600.  Quad core.  32KB Data and Instruction L1 caches, 4096K L2 cache.  4 X 2GB RAM.
 * 8 X 8431:  AMD Opteron 8431.  6 cores each, 8 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  256GB RAM.
 * E5506:  Intel Xeon E5506 2.13GHz.  Quad core.  32K Data and Instruction L1 caches, 256K L2 cache, 4096K L3 cache.
@@ -185,6 +189,7 @@ Processor Cores Clock  Memory    1 Core 2     3     4     8     16    24    32  
 T7200     2     2.0GHz DDR2/667  2965   3084
 4 X 8347  16    1.9GHz DDR2/667  2684   5212  7542  8760  9389  14590
 X2 4600+  2     2.4GHz DDR2/800  3657   4460
+2 X 280   4     2.4GHz DDR2/800  3035   3263  3130  6264
 Q6600     4     2.4GHz DDR2/800  4383   4537  4480  4390
 8 X 8431  48    2.4GHz DDR2/800  4038   7996  11918 13520 23658 22801 23688 24522 27214
 E5506     4     2.1GHz DDR3/800  7826   9016  9273  9297

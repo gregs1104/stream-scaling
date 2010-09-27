@@ -170,22 +170,30 @@ have marched forward as the industry moved from slower DDR2 to increasingly
 fast DDR3.
 
 * T7200:  Intel Core2 T7200.  Dual core.  32K Data and Instruction L1 caches, 4096K L2 cache.
+* 4 X 8347:  AMD Opteron 8347 HE.  Quad core, 4 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 2048K L3 cache.  32 X 2GB DDR2-667.
 * X2 4600+:  AMD Athlon 64 X2 4600+.  Dual core.  64K Data and Instruction L1 caches, 512K L2 cache.  4 X 2GB RAM.
 * Q6600:  Intel Q6600.  Quad core.  32KB Data and Instruction L1 caches, 4096K L2 cache.  4 X 2GB RAM.
+* 8 X 8431:  AMD Opteron 8431.  6 cores each, 8 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  256GB RAM.
 * E5506:  Intel Xeon E5506 2.13GHz.  Quad core.  32K Data and Instruction L1 caches, 256K L2 cache, 4096K L3 cache.
+* X4 955:  AMD Phenon II X4 955.  64K Data and Instruction L1 caches, 512K L2 cache, 6144K L3 cache.  4GB DDR3-1333.
+* X6 1055T:  AMD Phenon II X6 1055T.  64K Data and Instruction L1 caches, 512K L2 cache, 6144K L3 cache.  8GB DDR3-1333.
 * i860: Intel Core i7 860.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  4 X 2GB RAM.
-* 8 X 8431:  AMD Opteron 8431  6 cores each, 8 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  256GB RAM.
 
 ========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 Processor Cores Clock  Memory    1 Core 2     3     4     8     16    24    32    48
 ========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 T7200     2     2.0GHz DDR2/667  2965   3084
+4 X 8347  16    1.9GHz DDR2/667  2684   5212  7542  8760  9389  14590
 X2 4600+  2     2.4GHz DDR2/800  3657   4460
 Q6600     4     2.4GHz DDR2/800  4383   4537  4480  4390
 8 X 8431  48    2.4GHz DDR2/800  4038   7996  11918 13520 23658 22801 23688 24522 27214
 E5506     4     2.1GHz DDR3/800  7826   9016  9273  9297
+X4 955    4     3.2GHz DDR3/1333 6750   7150  7286  7258 
+X6 1055T  6     3.2GHz DDR3/1333 7207   8657  9873  9772  9932*
 i860      8     2.8GHz DDR3/1600 9664   13096 13959 14293 13231
 ========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
+
+* The result for 6-core processors with 6 threads is shown in the 8-core column.  Only so much space to work with here...
 
 Todo
 ====

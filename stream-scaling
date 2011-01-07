@@ -163,7 +163,6 @@ function stream_array_elements {
     NEEDED_SIZE=2000000
   fi
 
-  #
   # The array sizing code will overflow 32 bits on systems with many
   # processors having lots of cache.  The crash looks like this:
   #
@@ -184,10 +183,10 @@ function stream_array_elements {
   # stream.c:(.text+0x660): relocation truncated to fit: R_X86_64_32S against `.bss'
   # stream.c:(.text+0x6ab): additional relocation overflows omitted from the output
   # collect2: ld returned 1 exit status
-  #
-  # Clamp the upper value to the maximum size observed to avoid this error.
-  #
-  MAX_ARRAY_SIZE=133823656
+  
+  # Clamp the upper value to a smaller maximum size to try and avoid this
+  # error.  130,000,000 makes for approximately a 3GB array.
+  MAX_ARRAY_SIZE=130000000
   if [ $NEEDED_SIZE -gt $MAX_ARRAY_SIZE ] ; then
     NEEDED_SIZE=$MAX_ARRAY_SIZE
 	echo Limiting array size to fit into a 32 bit structure
@@ -201,10 +200,11 @@ function stream_array_elements {
   # Total CPU system cache: 814743552 bytes
   # Computed minimum array elements needed: 370337978
   #
-  # So using 133,823,656 instead of 370,337,978 still an array 3.6X the
+  # So using 130,000,000 instead of 370,337,978 still an array >3X the
   # size of cache sum.  Really large systems with >48 processors might overflow
   # this still, but hopefully this limitation will be addressed by the
-  # distributed stream code instead.
+  # underlying stream code being called here eventually, rather than
+  # trying to work around it here.
 
   echo Array elements used:  $NEEDED_SIZE
   eval $__resultvar="'$NEEDED_SIZE'"

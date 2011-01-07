@@ -157,13 +157,56 @@ function stream_array_elements {
   local BYTES_PER_ARRAY_ENTRY=22
   ((NEEDED_SIZE = 10 * TOTAL_CACHE / BYTES_PER_ARRAY_ENTRY))
 
-  echo Computed minimum array elements needed:  $NEEDED_SIZE
+  echo Suggested minimum array elements needed:  $NEEDED_SIZE
 
   if [ $NEEDED_SIZE -lt 2000000 ] ; then
     NEEDED_SIZE=2000000
   fi
 
-  echo Minimum array elements used:  $NEEDED_SIZE
+  #
+  # The array sizing code will overflow 32 bits on systems with many
+  # processors having lots of cache.  The crash looks like this:
+  #
+  # $ gcc -O3 -DN=133823657 -fopenmp stream.c -o stream
+  # /tmp/ccecdC49.o: In function `checkSTREAMresults':
+  # stream.c:(.text+0x34): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # /tmp/ccecdC49.o: In function `main.omp_fn.6':
+  # stream.c:(.text+0x2a6): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # stream.c:(.text+0x348): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # stream.c:(.text+0x388): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # /tmp/ccecdC49.o: In function `main.omp_fn.8':
+  # stream.c:(.text+0x4ed): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # stream.c:(.text+0x514): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # stream.c:(.text+0x548): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # stream.c:(.text+0x58c): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # /tmp/ccecdC49.o: In function `main.omp_fn.9':
+  # stream.c:(.text+0x615): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # stream.c:(.text+0x660): relocation truncated to fit: R_X86_64_32S against `.bss'
+  # stream.c:(.text+0x6ab): additional relocation overflows omitted from the output
+  # collect2: ld returned 1 exit status
+  #
+  # Clamp the upper value to the maximum size observed to avoid this error.
+  #
+  MAX_ARRAY_SIZE=133823656
+  if [ $NEEDED_SIZE -gt $MAX_ARRAY_SIZE ] ; then
+    NEEDED_SIZE=$MAX_ARRAY_SIZE
+	echo Limiting array size to fit into a 32 bit structure
+  fi
+
+  # Given the sizing above uses a factor of 10X cache size, this reduced size
+  # is still large enough for current generation procesors up to the 48 core
+  # range.  For example, a system containing 8 Intel Xeon L7555 processors with
+  # 4 cores having 24576 KB cache each will suggest:
+  #
+  # Total CPU system cache: 814743552 bytes
+  # Computed minimum array elements needed: 370337978
+  #
+  # So using 133,823,656 instead of 370,337,978 still an array 3.6X the
+  # size of cache sum.  Really large systems with >48 processors might overflow
+  # this still, but hopefully this limitation will be addressed by the
+  # distributed stream code instead.
+
+  echo Array elements used:  $NEEDED_SIZE
   eval $__resultvar="'$NEEDED_SIZE'"
   return
 }

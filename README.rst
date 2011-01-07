@@ -65,8 +65,8 @@ to accelerate running with low core counts.  Memory is 4 X 2GB DDR-1600::
     CPU /sys/devices/system/cpu/cpu7 Level 2 Cache: 256K (Unified)
     CPU /sys/devices/system/cpu/cpu7 Level 3 Cache: 8192K (Unified)
     Total CPU system cache: 69468160 bytes
-    Computed minimum array elements needed: 31576436
-    Minimum array elements used: 31576436
+    Suggested minimum array elements needed: 31576436
+    Array elements used: 31576436
 
     === Check and possibly build stream ===
     --2010-09-19 21:41:46--  http://www.cs.virginia.edu/stream/FTP/Code/stream.c

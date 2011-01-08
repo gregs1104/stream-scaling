@@ -162,6 +162,26 @@ for submission to such a project are still being worked on.
 Please contact the author if you have any ideas for helping organize
 this work.
 
+In general the following information is needed:
+
+* Output from the stream-scaling command
+* CPU information
+* List of memory banks in the system, what size of RAM they have, and
+  what technology/speed it runs at.
+
+Common places you might assemble this info from include:
+
+* /proc/cpuinfo
+* lspci -v
+* dmidecode
+
+Since CPU performance data of this sort is very generic, many 
+submissions are sent to help this project without wanting the
+company or individual's name dislosed.  Accordingly, unless credit
+for your submission is specifically requested, the source of reported
+results will remain private.  So far all contributions have been
+anonymous.
+
 Preliminary Samples
 -------------------
 
@@ -174,29 +194,41 @@ can be impressive.
 
 * T7200:  Intel Core2 T7200.  Dual core.  32K Data and Instruction L1 caches, 4096K L2 cache.
 * 4 X 8347:  AMD Opteron 8347 HE.  Quad core, 4 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 2048K L3 cache.  32 X 2GB DDR2-667.
+* E2180:  Intel Pentium E2180.  Dual core.  32K Data and Instruction L1 caches, 1024K L2 cache.  2 X 1GB DDR2-800.
 * X2 4600+:  AMD Athlon 64 X2 4600+.  Dual core.  64K Data and Instruction L1 caches, 512K L2 cache.  4 X 2GB RAM.
 * 2 X 280:  Amd Opteron 280.  Dual core, 2 sockets.  64K Data and Instruction L1 caches, 1024K L2 cache.  8 X 1GB DDR2-800.
 * Q6600:  Intel Q6600.  Quad core.  32KB Data and Instruction L1 caches, 4096K L2 cache.  4 X 2GB RAM.
 * 8 X 8431:  AMD Opteron 8431.  6 cores each, 8 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  256GB RAM.
+* E5420:  Intel Xeon E5420.  Quad core.  16K Data and Instruction L1 caches, 6144MB L2 cache.  8X 4GB DDR2-667.
 * E5506:  Intel Xeon E5506 2.13GHz.  Quad core.  32K Data and Instruction L1 caches, 256K L2 cache, 4096K L3 cache.
+* E5520:  Dual Intel Xeon E5520.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  18 X 4GB RAM.
 * X4 955:  AMD Phenon II X4 955.  64K Data and Instruction L1 caches, 512K L2 cache, 6144K L3 cache.  4GB DDR3-1333.
 * X6 1055T:  AMD Phenon II X6 1055T.  64K Data and Instruction L1 caches, 512K L2 cache, 6144K L3 cache.  8GB DDR3-1333.
 * i860: Intel Core i7 860.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  4 X 2GB RAM.
+* i870: Intel Core i7 870.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  2 X 2GB RAM.
+* i870[2]: Intel Core i7 870, as above, except with 4 X 4GB RAM.
+* 2 X X5560:  Dual Intel Xeon X5560. Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  6 X 2GB DDR3/1333.
 
-========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
-Processor Cores Clock  Memory    1 Core 2     3     4     8     16    24    32    48
-========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
-T7200     2     2.0GHz DDR2/667  2965   3084
-4 X 8347  16    1.9GHz DDR2/667  2684   5212  7542  8760  9389  14590
-X2 4600+  2     2.4GHz DDR2/800  3657   4460
-2 X 280   4     2.4GHz DDR2/800  3035   3263  3130  6264
-Q6600     4     2.4GHz DDR2/800  4383   4537  4480  4390
-8 X 8431  48    2.4GHz DDR2/800  4038   7996  11918 13520 23658 22801 23688 24522 27214
-E5506     4     2.1GHz DDR3/800  7826   9016  9273  9297
-X4 955    4     3.2GHz DDR3/1333 6750   7150  7286  7258 
-X6 1055T  6     3.2GHz DDR3/1333 7207   8657  9873  9772  9932*
-i860      8     2.8GHz DDR3/1600 9664   13096 13959 14293 13231
-========= ===== ====== ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
+========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
+Processor Cores Clock   Memory    1 Core 2     3     4     8     16    24    32    48
+========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
+T7200     2     2.0GHz  DDR2/667  2965   3084
+E5420     4     2.5GHz  DDR2/667  3596   3992  4305  4365  4452
+4 X 8347  16    1.9GHz  DDR2/667  2684   5212  7542  8760  9389  14590
+E2180     2     2.0GHz  DDR2/800  2744   2784
+X2 4600+  2     2.4GHz  DDR2/800  3657   4460
+2 X 280   4     2.4GHz  DDR2/800  3035   3263  3130  6264
+Q6600     4     2.4GHz  DDR2/800  4383   4537  4480  4390
+8 X 8431  48    2.4GHz  DDR2/800  4038   7996  11918 13520 23658 22801 23688 24522 27214
+E5506     4     2.13GHz DDR3/800  7826   9016  9273  9297
+2 X E5520 8     2.27GHz DDR3/1066 7548   9841  9377  9754  12101 13176
+X4 955    4     3.2GHz  DDR3/1333 6750   7150  7286  7258 
+X6 1055T  6     3.2GHz  DDR3/1333 7207   8657  9873  9772  9932*
+i860      8     2.8GHz  DDR3/1600 9664   13096 13959 14293 13231
+i870      8     2.93GHz DDR3/1600 10022  12714 13698 13909 12787
+i870[2]   8     2.93GHz DDR3/1600 9354   11935 13145 13853 12598
+2 X X5560 16    2.8GHz  DDR3/1333 11658  18382 19918 24546 23407 29215
+========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 
 * The result for 6-core processors with 6 threads is shown in the 8-core column.  Only so much space to work with here...
 
@@ -204,7 +236,9 @@ Todo
 ====
 
 * Adding compatibility with more operating systems than Linux
-  would be nice.
+  would be nice.  Some results have been submitted from FreeBSD that
+  look correct, but the automatic cache validation code hasn't
+  been validated on that OS.
 
 * A results processor that took the verbose output shown
   and instead produced a compact version for easy comparison
@@ -214,12 +248,35 @@ Todo
 Bugs
 ====
 
-There aren't any known bugs, just limitations.
+On some systems, the amount of memory selected for the stream array
+ends up exceeding how large of a block of RAM the system is willing
+to allocate at once.  This seems a particular issue on 32-bit operating
+systems, but even 64-bit ones are not immune.  The program currently
+enforces an upper limit on the stream array size of 130M, which
+allocates approximately 3GB of memory just for that part (with 4GB being
+the normal limit for 32-bit structures).  If your system fails to
+compile stream with an error such as this::
+
+  stream.c:(.text+0x34): relocation truncated to fit: R_X86_64_32S against `.bss'
+
+You will need to manually decrease the size of the array until the
+program will compile and link.  Manual compile can be done like this::
+
+  gcc -O3 -DN=130000000 -fopenmp stream.c -o stream
+
+And then reducing the ``-DN`` value until compilation is successful.
+After that upper limit is determined, adjust the setting for
+MAX_ARRAY_SIZE at the beginning of the stream-scaling program to reflect
+it.
+
+If you encounter this situation, a problem report to the author would
+be appreciated.  It's not clear yet why the exact cut-off value varies
+on some systems.
 
 Documentation
 =============
 
-The documentation README.rst for the program is in ReST markup.  Tools
+The documentation ``README.rst`` for the program is in ReST markup.  Tools
 that operate on ReST can be used to make versions of it formatted
 for other purposes, such as rst2html to make a HTML version.
 
@@ -265,4 +322,3 @@ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
 THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-

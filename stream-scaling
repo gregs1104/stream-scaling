@@ -19,6 +19,13 @@
 # estimated (in a way that only works on Linux), and the size of
 # the array used is increased to be twice as large as that total.
 
+# Limit the maximum array sized used so that the data structure fits
+# into a memory block without overflow.  This makes for about 3GB
+# of memory just for the main array, plus some other structures,
+# and just fits on most 64-bit systems.  A lower limit may
+# be needed on some sytems.
+MAX_ARRAY_SIZE=130000000
+
 #
 # Determine maximum cores to test
 #
@@ -186,7 +193,6 @@ function stream_array_elements {
   
   # Clamp the upper value to a smaller maximum size to try and avoid this
   # error.  130,000,000 makes for approximately a 3GB array.
-  MAX_ARRAY_SIZE=130000000
   if [ $NEEDED_SIZE -gt $MAX_ARRAY_SIZE ] ; then
     NEEDED_SIZE=$MAX_ARRAY_SIZE
 	echo Limiting array size to fit into a 32 bit structure

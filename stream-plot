@@ -1,0 +1,9 @@
+# gnuplot script to 
+set autoscale x
+set autoscale y
+set xlabel "Threads"
+set ylabel "Triad MB/s"
+set key right bottom
+set terminal png
+set output "stream.png"
+plot "stream.txt" with lines title "STREAM Memory Scaling"

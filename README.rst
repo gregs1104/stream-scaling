@@ -193,13 +193,14 @@ gets great bandwidth, when the server is fully loaded the aggregate amount
 can be impressive.
 
 * T7200:  Intel Core2 T7200.  Dual core.  32K Data and Instruction L1 caches, 4096K L2 cache.
+* E5420:  Intel Xeon E5420.  Quad core.  16K Data and Instruction L1 caches, 6144MB L2 cache.  8 X 4GB DDR2-667.
+* 2 X E5405:  Dual Intel Xeon E5405.  Quad core.  32K Data and Instruction L1 caches, 6144K L2 cache.  8 X 4GB DDR2-667.
 * 4 X 8347:  AMD Opteron 8347 HE.  Quad core, 4 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 2048K L3 cache.  32 X 2GB DDR2-667.
 * E2180:  Intel Pentium E2180.  Dual core.  32K Data and Instruction L1 caches, 1024K L2 cache.  2 X 1GB DDR2-800.
 * X2 4600+:  AMD Athlon 64 X2 4600+.  Dual core.  64K Data and Instruction L1 caches, 512K L2 cache.  4 X 2GB RAM.
 * 2 X 280:  Amd Opteron 280.  Dual core, 2 sockets.  64K Data and Instruction L1 caches, 1024K L2 cache.  8 X 1GB DDR2-800.
 * Q6600:  Intel Q6600.  Quad core.  32KB Data and Instruction L1 caches, 4096K L2 cache.  4 X 2GB RAM.
 * 8 X 8431:  AMD Opteron 8431.  6 cores each, 8 sockets.  64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  256GB RAM.
-* E5420:  Intel Xeon E5420.  Quad core.  16K Data and Instruction L1 caches, 6144MB L2 cache.  8X 4GB DDR2-667.
 * E5506:  Intel Xeon E5506 2.13GHz.  Quad core.  32K Data and Instruction L1 caches, 256K L2 cache, 4096K L3 cache.
 * E5520:  Dual Intel Xeon E5520.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  18 X 4GB RAM.
 * X4 955:  AMD Phenon II X4 955.  64K Data and Instruction L1 caches, 512K L2 cache, 6144K L3 cache.  4GB DDR3-1333.
@@ -217,6 +218,7 @@ Processor Cores Clock   Memory    1 Core 2     3     4     8     16    24    32 
 ========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 T7200     2     2.0GHz  DDR2/667  2965   3084
 E5420     4     2.5GHz  DDR2/667  3596   3992  4305  4365  4452
+2 X E5405 8     2.0GHz  DDR2/667  3651   3830  4941  5774  5773
 4 X 8347  16    1.9GHz  DDR2/667  2684   5212  7542  8760  9389  14590
 E2180     2     2.0GHz  DDR2/800  2744   2784
 X2 4600+  2     2.4GHz  DDR2/800  3657   4460

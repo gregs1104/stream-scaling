@@ -1,0 +1,41 @@
+#!/usr/bin/env ruby
+# Take the output from runs genearated by multi-stream-scaling and
+# plot an average of the values
+
+module Enumerable
+  def sum
+    return self.inject(0) {|a,e| a + e.to_f }
+  end
+
+  def mean
+    return self.sum / self.size
+  end
+
+  def std_dev
+    return Math.sqrt( self.map {|n| (n - self.mean) ** 2 }.mean )
+  end
+
+end
+
+title = ARGV[0]
+unless title
+  abort "Usage: #{$0} [report_name]"
+end
+
+results = {}
+
+Dir[ "#{title}*" ].each do |file|
+  lines = IO.popen( "cat #{file} | ./stream-graph.py" ).readlines
+  lines.shift # remove header comment
+
+  lines.map {|l| l.split }.each do |cores, result|
+    results[ cores.to_i ] ||= []
+    results[ cores.to_i ] << result.to_f
+  end
+end
+
+puts "cores,avg,stddev"
+results.sort_by {|k,v| k }.each do |cores, values|
+  puts [ cores, values.mean, values.std_dev ].join(",")
+end
+

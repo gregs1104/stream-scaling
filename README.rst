@@ -320,6 +320,16 @@ If you have any hints, changes or improvements, please contact:
 
  * Greg Smith greg@2ndQuadrant.com
 
+Credits
+=======
+
+The sample results given in this file have benefitted from private
+contributions all over the world.  Most submissions ask to remain
+anonymous.
+
+The multiple run averaging programs were originally contributed by
+Ben Bleything <ben@bleything.net>
+
 License
 =======
 

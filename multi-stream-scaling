@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+# Run stream-scaling multiple times, saving each into
+# an output file based on the input test_title
+$stdout.sync = true
+
+count, title = ARGV[0,2]
+unless count and title
+  abort "Usage: #{$0} run_count test_title"
+end
+
+puts "Preparing..."
+system "rm -f stream"
+
+puts "Running warmup..."
+system "./stream-scaling > /dev/null"
+
+count.to_i.times do |run|
+  filename = "#{title}_run_#{run + 1}"
+
+  print "Starting stream-scaling run #{run + 1} of #{count}..."
+  system "./stream-scaling > #{filename}"
+  puts "multi-stream-scaling completed. Results written to #{filename}"
+end

@@ -242,6 +242,24 @@ i870[2]   8     2.93GHz DDR3/1600 9354   11935 13145 13853 12598
 
 * The result for 6-core processors with 6 threads is shown in the 8-core column.  Only so much space to work with here...
 
+Multiple runs
+=============
+
+Since significant run to run variation is often observed in stream
+results, a set of tools to help average this data out are included.
+The programs require the Ruby programming language be installed.
+Using them looks like this, where we're using the server hostname
+"grace" to label the files and averaging across 10 runs::
+
+  ./multi-stream-scaling 10 grace
+  ./multi-averager grace > stream.txt
+  gnuplot stream-plot
+
+A stream.png file will be produced with a graph showing the average
+of the values from the multiple runs.  If you are interested in
+analyzing the run to run variation, the stream.txt file also includes
+the standard deviation of the results at each core count.
+
 Todo
 ====
 
@@ -300,9 +318,18 @@ After that upper limit is determined, adjust the setting for
 MAX_ARRAY_SIZE at the beginning of the stream-scaling program to reflect
 it.
 
-If you encounter this situation, a problem report to the author would
+The current version of stream-scaling tries to work around this by
+using a customized version of the stream code that dynamically allocates
+these arrays.  It is still possible a problem here exists, and a
+warning suggesting a workaround (an easier one than doing a manual
+compile as described above) appears if your system appears to have
+so much cache it could run into this issue.
+
+If you encounter this situation, where stream-scaling still doesn't
+work properly for you, a problem report to the author would
 be appreciated.  It's not clear yet why the exact cut-off value varies
-on some systems.
+on some systems, or if there are systems where the improved dynamic
+allocation logic may not be sufficient.
 
 Documentation
 =============

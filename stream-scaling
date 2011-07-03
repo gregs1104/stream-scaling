@@ -194,8 +194,21 @@ function stream_array_elements {
   # Clamp the upper value to a smaller maximum size to try and avoid this
   # error.  130,000,000 makes for approximately a 3GB array.
   if [ $NEEDED_SIZE -gt $MAX_ARRAY_SIZE ] ; then
-    NEEDED_SIZE=$MAX_ARRAY_SIZE
-	echo Limiting array size to fit into a 32 bit structure
+    #
+    # Size clamp code
+    #
+    # Uncomment this line if stream-scaling fails to work on your system with
+    # "relocation truncated to fit" errors.  Note that results generated in
+    # this case may not be reliable.  Be suspicious of them if the speed
+    # results at the upper-end of the processor count seem extremely large
+    # relative to similar systems.
+
+    #NEEDED_SIZE=$MAX_ARRAY_SIZE
+
+    echo WARNING:  Array size may not fit into a 32 bit structure.
+    echo If stream files to compile, you may need to uncomment the
+    echo line in the script labeled and described by the "Size
+    echo clamp code" comments.
   fi
 
   # Given the sizing above uses a factor of 10X cache size, this reduced size

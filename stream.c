@@ -94,9 +94,14 @@
 # define MAX(x,y) ((x)>(y)?(x):(y))
 # endif
 
+#ifdef DYNALLOC
+#include <stdlib.h>
+static double *a, *b, *c;
+#else
 static double	a[N+OFFSET],
 		b[N+OFFSET],
 		c[N+OFFSET];
+#endif
 
 static double	avgtime[4] = {0}, maxtime[4] = {0},
 		mintime[4] = {FLT_MAX,FLT_MAX,FLT_MAX,FLT_MAX};
@@ -130,6 +135,15 @@ main()
     register int	j, k;
     double		scalar, t, times[4][NTIMES];
 
+#ifdef DYNALLOC
+    /* Allocate memory dynamically */
+    if (((a = malloc((N + OFFSET) * sizeof(double))) == NULL) ||
+        ((b = malloc((N + OFFSET) * sizeof(double))) == NULL) ||
+        ((c = malloc((N + OFFSET) * sizeof(double))) == NULL)) {
+	printf("Failed to allocate work memory");
+	exit(1);
+    }
+#endif
     /* --- SETUP --- determine precision and check timing --- */
 
     printf(HLINE);

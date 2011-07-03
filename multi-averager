@@ -34,8 +34,8 @@ Dir[ "#{title}*" ].each do |file|
   end
 end
 
-puts "cores,avg,stddev"
+puts "#cores avg stddev"
 results.sort_by {|k,v| k }.each do |cores, values|
-  puts [ cores, values.mean, values.std_dev ].join(",")
+  puts [ cores, values.mean, values.std_dev ].join(" ")
 end
 

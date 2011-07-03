@@ -68,7 +68,13 @@ to accelerate running with low core counts.  Memory is 4 X 2GB DDR-1600::
     Suggested minimum array elements needed: 31576436
     Array elements used: 31576436
 
-    === Check and possibly build stream ===
+    === CPU Core Summary ===
+    processor	: 7
+    model name	: Intel(R) Core(TM) i7 CPU         860  @ 2.80GHz
+    cpu MHz		: 2898.023
+    siblings	: 8
+
+    === Check and build stream ===
     --2010-09-19 21:41:46--  http://www.cs.virginia.edu/stream/FTP/Code/stream.c
     Resolving www.cs.virginia.edu... 128.143.137.29
     Connecting to www.cs.virginia.edu|128.143.137.29|:80... connected.

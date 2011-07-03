@@ -243,6 +243,15 @@ if [ -n "$DEBUG" ] ; then
 fi
 
 #
+# Try to summarize the information about the CPU, to
+# make submitted results more complete
+#
+
+echo
+echo === CPU Core Summary ===
+cat /proc/cpuinfo  | egrep "processor|model name|cpu MHz|siblings" | tail -n 4
+
+#
 # Download and compile stream
 #
 

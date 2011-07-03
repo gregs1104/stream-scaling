@@ -218,7 +218,11 @@ can be impressive.
 * 2 X X5560:  Dual Intel Xeon X5560. Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  6 X 2GB DDR3/1333.
 * 4 x E7540:  Quad Intel Xeon E7540. Six cores with Turbo and Hyper Threading for 48 virtual cores, 32K Data and Instruction L1 caches, 256K L2 cache, 18432K L3 cache.  32 x 4096MB DDR3/1066.
 * 4 x X7550:  Quad Intel Xeon X7550.  Eight cores with Turbo, Hyper Threading disabled for 32 total.  32K Data and Instruction L1 caches, 256K L2 cache, 18432K L3 cache.  32 X 4096 DDR3/1333.
-* 4 x 6172:  Quad AMD Opteron 6172.  Twelve cores for 48 total, 64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  32 x 4096MB DDR3/1333.
+* 4 X 6168:  Quad AMD Opteron 6168.  Twelve cores for 48 total, 64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  16 X 8192MB DDR3/133.
+* 4 X 6172:  Quad AMD Opteron 6172.  Twelve cores for 48 total, 64K Data and Instruction L1 caches, 512K L2 cache, 5118K L3 cache.  32 X 4096MB DDR3/1333.
+* 4x X7560:  Quad Intel X7560.  Eight cores with Turbo and Hyper Threading for 64 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 24576K L3 cache.  32 X 4096 DDR3/1066.
+* X7560[2]:  Quad Intel X7560.  Eight cores with Turbo and Hyper Threading disabled, for 32 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 24576K L3 cache.  32 X 4096 DDR3/1066.
+* 4 X 4850:  Quad Intel E7-4850.  Ten cores with Turbo and Hyper Threading for 80 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 24576K L3 cache.  64 X 8192MB DDR3/1333.
 
 ========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 Processor Cores Clock   Memory    1 Core 2     3     4     8     16    24    32    48
@@ -243,7 +247,11 @@ i870[2]   8     2.93GHz DDR3/1600 9354   11935 13145 13853 12598
 2 X X5560 16    2.8GHz  DDR3/1333 11658  18382 19918 24546 23407 29215
 4 X E7540 48    2.0GHz  DDR3/1066 4992   9967  14926 18727 31685 35566 35488 35973 35284 
 4 X X7550 32    2.0GHz  DDR3/1333 5236   10482 15723 20963 32557 35941 35874 35819
+4 X 6168  48    1.90GHz DDR3/1333 5611   11148 15819 20943 34327 52206 67560 69517 65617
 4 X 6172  48    2.1GHz  DDR3/1333 4958   9903  14493 19469 37613 51625 40611 47361 32301
+4 X X7560 64    2.26GHz DDR3/1066 4356   7710  13028 14561 18702 19761 19938 20011 15964
+X7560[2]  32    2.26GHz DDR3/1066 4345   8679  12970 16315 25293 27378 27368 28654
+4 X 4850  80    2.0GHz  DDR3/1333 5932   11571 17404 16000 41932 72351 58657 71384 65395
 ========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 
 * The result for 6-core processors with 6 threads is shown in the 8-core column.  Only so much space to work with here...

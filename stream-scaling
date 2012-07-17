@@ -195,7 +195,7 @@ function stream_array_elements {
   fi
 
   # The array sizing code will overflow 32 bits on systems with many
-  # processors having lots of cache.  The crash looks like this:
+  # processors having lots of cache.  The compiler error looks like this:
   #
   # $ gcc -O3 -DN=133823657 -fopenmp stream.c -o stream
   # /tmp/ccecdC49.o: In function `checkSTREAMresults':
@@ -214,9 +214,11 @@ function stream_array_elements {
   # stream.c:(.text+0x660): relocation truncated to fit: R_X86_64_32S against `.bss'
   # stream.c:(.text+0x6ab): additional relocation overflows omitted from the output
   # collect2: ld returned 1 exit status
-  
-  # Clamp the upper value to a smaller maximum size to try and avoid this
-  # error.  130,000,000 makes for approximately a 3GB array.
+  #  
+  # Warn about this issue, and provide a way to clamp the upper value to a smaller
+  # maximum size to try and avoid this error.  130,000,000 makes for approximately
+  # a 3GB array.  The large memory model compiler option will avoid this issue
+  # if a gcc version that supports it is available.
   if [ $NEEDED_SIZE -gt $MAX_ARRAY_SIZE ] ; then
     #
     # Size clamp code
@@ -236,18 +238,16 @@ function stream_array_elements {
   fi
 
   # Given the sizing above uses a factor of 10X cache size, this reduced size
-  # is still large enough for current generation procesors up to the 48 core
+  # might still be large enough for current generation procesors up to the 48 core
   # range.  For example, a system containing 8 Intel Xeon L7555 processors with
   # 4 cores having 24576 KB cache each will suggest:
   #
   # Total CPU system cache: 814743552 bytes
   # Computed minimum array elements needed: 370337978
   #
-  # So using 130,000,000 instead of 370,337,978 still an array >3X the
-  # size of cache sum.  Really large systems with >48 processors might overflow
-  # this still, but hopefully this limitation will be addressed by the
-  # underlying stream code being called here eventually, rather than
-  # trying to work around it here.
+  # So using 130,000,000 instead of 370,337,978 still be an array >3X the
+  # size of the cache sum in this case.  Really large systems with >48 processors
+  # might overflow this still.
 
   echo Array elements used:  $NEEDED_SIZE
   eval $__resultvar="'$NEEDED_SIZE'"
@@ -307,6 +307,18 @@ if [ -f stream ] ; then
 fi
 
 gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream
+if [ $? -ne 0 ] ; then
+  # The most likely way the program will fail to compile is if it's
+  # trying to use more memory than will fit on the standard gcc memory
+  # model.  Try the large one instead.  This will only work on newer
+  # gcc versions (it works on at least>=4.4), so there's no single
+  # compile option set here that will support older gcc versions
+  # and the large memory model.  Just trying both ways seems both
+  # simpler and more definitive than something like checking the
+  # gcc version.
+  echo === Trying large memory model ===
+  gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream -mcmodel=large
+fi
 
 if [ ! -x stream ] ; then
   echo Error:  did not find valid stream program compiled here, aborting

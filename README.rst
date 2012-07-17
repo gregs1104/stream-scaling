@@ -312,38 +312,46 @@ Bugs
 ====
 
 On some systems, the amount of memory selected for the stream array
-ends up exceeding how large of a block of RAM the system is willing
-to allocate at once.  This seems a particular issue on 32-bit operating
-systems, but even 64-bit ones are not immune.  The program currently
-enforces an upper limit on the stream array size of 130M, which
-allocates approximately 3GB of memory just for that part (with 4GB being
-the normal limit for 32-bit structures).  If your system fails to
-compile stream with an error such as this::
+ends up exceeding how large of a block of RAM the operatin system (or
+in some cases the compiler) is willing to allocate at once.  This
+seems a particular issue on 32-bit operating systems, but even 64-bit
+ones are not immune.
+
+If your system fails to compile stream with an error such as this::
 
   stream.c:(.text+0x34): relocation truncated to fit: R_X86_64_32S against `.bss'
 
-You will need to manually decrease the size of the array until the
-program will compile and link.  Manual compile can be done like this::
+stream-scaling will try to compile stream using the gcc "-mcmodel=large"
+option after hitting this error.  That will let the program use larger data
+structures.  If you are using a new enough version of the gcc compiler,
+believed to be at least verison 4.4, the program will run normally after
+that; you can ignore these "relocation truncated" warnings.
+
+If you have both a large amount of cache--so a matching large block of memory
+is needed--and an older version of gcc, the second compile attempt will also
+fail, with the following error::
+
+  stream.c:1: sorry, unimplemented: code model ‘large’ not supported yet
+
+In that case, it is unlikely you will get accurate results from
+stream-scaling.  You can try it anyway by manually decreasing the size of the
+array until the program will compile and link.  Manual compile can be done like
+this::
 
   gcc -O3 -DN=130000000 -fopenmp stream.c -o stream
 
 And then reducing the ``-DN`` value until compilation is successful.
 After that upper limit is determined, adjust the setting for
 MAX_ARRAY_SIZE at the beginning of the stream-scaling program to reflect
-it.
+it.  An upper limit on the stream array size of 130M as shown here
+allocates approximately 3GB of memory for the test array, with 4GB being
+the normal limit for 32-bit structures.
 
-The current version of stream-scaling tries to work around this by
-using a customized version of the stream code that dynamically allocates
-these arrays.  It is still possible a problem here exists, and a
-warning suggesting a workaround (an easier one than doing a manual
-compile as described above) appears if your system appears to have
-so much cache it could run into this issue.
-
-If you encounter this situation, where stream-scaling still doesn't
-work properly for you, a problem report to the author would
-be appreciated.  It's not clear yet why the exact cut-off value varies
-on some systems, or if there are systems where the improved dynamic
-allocation logic may not be sufficient.
+The fixes for this issue are new, and it is still possible a problem here
+still exists.  If you have a gcc version >=4.4 but stream-scaling still won't
+compile correctly, a problem report to the author would be appreciated.  It's
+not clear yet why the exact cut-off value varies on some systems, or if there
+are systems where the improved dynamic allocation logic may not be sufficient.
 
 Documentation
 =============

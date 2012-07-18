@@ -234,7 +234,7 @@ function stream_array_elements {
     echo WARNING:  Array size may not fit into a 32 bit structure.
     echo If stream files to compile, you may need to uncomment the
     echo line in the script labeled and described by the \"Size
-    echo clamp code\" comments.
+    echo clamp code\" comments in the stream-scaling script.
   fi
 
   # Given the sizing above uses a factor of 10X cache size, this reduced size
@@ -317,6 +317,7 @@ if [ $? -ne 0 ] ; then
   # simpler and more definitive than something like checking the
   # gcc version.
   echo === Trying large memory model ===
+  echo (this can take a while to compile)
   gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream -mcmodel=large
 fi
 

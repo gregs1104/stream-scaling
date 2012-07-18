@@ -343,7 +343,7 @@ while [[ $i -le $MAX_CORES ]] ; do
     ./stream
   else
     # Show just a summary after the first line.
-    ./stream | egrep "Number of Threads requested|Function|Triad"
+    ./stream | egrep "Number of Threads requested|Function|Triad|Failed|Expected|Observed"
   fi
 
   ((i++))

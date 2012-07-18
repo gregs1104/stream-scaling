@@ -317,7 +317,7 @@ if [ $? -ne 0 ] ; then
   # simpler and more definitive than something like checking the
   # gcc version.
   echo === Trying large memory model ===
-  echo (this can take a while to compile)
+  echo \(this can take a while to compile\)
   gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream -mcmodel=large
 fi
 

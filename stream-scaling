@@ -233,8 +233,8 @@ function stream_array_elements {
 
     echo WARNING:  Array size may not fit into a 32 bit structure.
     echo If stream files to compile, you may need to uncomment the
-    echo line in the script labeled and described by the "Size
-    echo clamp code" comments.
+    echo line in the script labeled and described by the \"Size
+    echo clamp code\" comments.
   fi
 
   # Given the sizing above uses a factor of 10X cache size, this reduced size

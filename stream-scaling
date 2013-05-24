@@ -39,6 +39,14 @@ elif [ -x "/usr/sbin/sysctl" ] ; then
   MAX_CORES=`sysctl -n hw.ncpu`
 fi  
 
+if command sysctl -a >/dev/null 2>&1; then
+  : # do nothing, no $PATH monkeying needed
+elif [ -x "/sbin/sysctl" ]; then
+  PATH="${PATH}:/sbin/"
+else 
+  echo WARNING:  could not find sysctl
+fi
+
 if [ -z "$MAX_CORES" ] ; then
   # Might as well have a default bigger than most systems ship with
   # if all else fails
@@ -172,7 +180,7 @@ function stream_array_elements {
 
   if [ -z "$TOTAL_CACHE" ] ; then
     echo Unable to guess cache size on this system.  Using default.
-    NEEDED_SIZE = 2000000
+    NEEDED_SIZE=2000000
     eval $__resultvar="'$NEEDED_SIZE'"
     return
   fi

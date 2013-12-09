@@ -312,7 +312,7 @@ Bugs
 ====
 
 On some systems, the amount of memory selected for the stream array
-ends up exceeding how large of a block of RAM the operatin system (or
+ends up exceeding how large of a block of RAM the operating system (or
 in some cases the compiler) is willing to allocate at once.  This
 seems a particular issue on 32-bit operating systems, but even 64-bit
 ones are not immune.

@@ -29,13 +29,18 @@ MAX_ARRAY_SIZE=130000000
 #
 # Look for sysctl on this system.  It's often not in non-root user's PATH.
 #
+#
+# Look for sysctl on this system.  It's often not in non-root user's PATH.
+#
 if command sysctl -a >/dev/null 2>&1; then
-  : # do nothing, no $PATH monkeying needed
+  SYSCTL=`which sysctl`
 elif [ -x "/sbin/sysctl" ]; then
-  PATH="${PATH}:/sbin/"
-else 
-  echo WARNING:  Could not find sysctl.  Cache size detection will not work properly.
+  SYSCTL="/sbin/sysctl"
+else
+  echo WARNING:  Could not find sysctl.  CPU and cache size detection will not work properly.
 fi
+# TODO Make all references to sysctl use this value
+# TODO Mac-specific code below should test uname, not rely on sysctl being somewhere
 
 #
 # Determine maximum cores to test
@@ -46,8 +51,8 @@ if [ -n "$1" ] ; then
 elif [ -f "/proc/cpuinfo" ] ; then
   MAX_CORES=`grep -c processor /proc/cpuinfo`
 elif [ -x "/usr/sbin/sysctl" ] ; then
-  # This should work on Mac OS X
-  MAX_CORES=`sysctl -n hw.ncpu`
+  # This should work on Mac OS X, FreeBSD
+  MAX_CORES=`$SYSCTL -n hw.ncpu`
 fi  
 
 if [ -z "$MAX_CORES" ] ; then
@@ -159,6 +164,14 @@ function total_mac_cache_size {
   fi
 
   eval $__resultvar="'$TOTAL_CACHE'"
+}
+
+# Not working yet prototype for FreeBSD cache detection
+function total_freebsd_cache_size {
+  dmidecode | grep -A 5 "L3-Cache" | grep "Installed" | head -n 1
+  # TODO This returns a line like this, and it needs to be multiplied by # cores
+  # Installed Size: 12288 kB
+  return
 }
 
 #

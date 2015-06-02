@@ -25,6 +25,7 @@
 # and just fits on most 64-bit systems.  A lower limit may
 # be needed on some sytems.
 MAX_ARRAY_SIZE=130000000
+STREAM_MIN=10000000
 
 #
 # Look for sysctl on this system.  It's often not in non-root user's PATH.
@@ -186,7 +187,7 @@ function stream_array_elements {
   # This and below eval __resultvar let it set variables outside
   # of the function more cleanly than using globals here.
   local  __resultvar=$1
-  local NEEDED_SIZE=2000000
+  local NEEDED_SIZE=$STREAM_MIN
 
   total_cache_size TOTAL_CACHE
 
@@ -196,7 +197,7 @@ function stream_array_elements {
 
   if [ -z "$TOTAL_CACHE" ] ; then
     echo Unable to guess cache size on this system.  Using default.
-    NEEDED_SIZE=2000000
+    NEEDED_SIZE=$STREAM_MIN
     eval $__resultvar="'$NEEDED_SIZE'"
     return
   fi
@@ -214,8 +215,8 @@ function stream_array_elements {
 
   echo Suggested minimum array elements needed:  $NEEDED_SIZE
 
-  if [ $NEEDED_SIZE -lt 2000000 ] ; then
-    NEEDED_SIZE=2000000
+  if [ $NEEDED_SIZE -lt $STREAM_MIN ] ; then
+    NEEDED_SIZE=$STREAM_MIN
   fi
 
   # The array sizing code will overflow 32 bits on systems with many
@@ -284,7 +285,7 @@ function stream_array_elements {
 
 echo === CPU cache information ===
 stream_array_elements ARRAY_SIZE
-ARRAY_FLAG="-DN=$ARRAY_SIZE"
+ARRAY_FLAG="-D STREAM_ARRAY_SIZE=$ARRAY_SIZE"
 if [ -n "$DEBUG" ] ; then
   echo Array size is $ARRAY_SIZE
   echo Array flag is $ARRAY_FLAG
@@ -330,7 +331,7 @@ if [ -f stream ] ; then
   rm stream
 fi
 
-gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream
+gcc -O3 $ARRAY_FLAG stream.c -o stream # -fopenmp
 if [ $? -ne 0 ] ; then
   # The most likely way the program will fail to compile is if it's
   # trying to use more memory than will fit on the standard gcc memory
@@ -342,7 +343,7 @@ if [ $? -ne 0 ] ; then
   # gcc version.
   echo === Trying large memory model ===
   echo \(this can take a while to compile\)
-  gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream -mcmodel=large
+  gcc -O3 $ARRAY_FLAG stream.c -o stream -mcmodel=large # -fopenmp
 fi
 
 if [ ! -x stream ] ; then

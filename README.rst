@@ -211,9 +211,9 @@ can be impressive.
 * E5520:  Dual Intel Xeon E5520.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  18 X 4GB RAM.
 * X4 955:  AMD Phenon II X4 955.  64K Data and Instruction L1 caches, 512K L2 cache, 6144K L3 cache.  4GB DDR3-1333.
 * X6 1055T:  AMD Phenon II X6 1055T.  64K Data and Instruction L1 caches, 512K L2 cache, 6144K L3 cache.  8GB DDR3-1333.
-* i860: Intel Core i7 860.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  4 X 2GB RAM.
-* i870: Intel Core i7 870.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  2 X 2GB RAM.
-* i870[2]: Intel Core i7 870, as above, except with 4 X 4GB RAM.
+* i7-860: Intel Core i7 860.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  4 X 2GB RAM.
+* i7-870: Intel Core i7 870.  Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  2 X 2GB RAM.
+* i7-870[2]: Intel Core i7 870, as above, except with 4 X 4GB RAM.
 * 2 X E5620:  Dual Intel Xeon E5620.  Quad core with Turbo and Hyper Threading for 16 virtual cores.  32K Data and Instruction L1 cache, 256K L2 cache, 12288K L3 cache.  12 X 8GB DDR3/1333.
 * 2 X X5560:  Dual Intel Xeon X5560. Quad core with Turbo and Hyper Threading for 8 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache.  6 X 2GB DDR3/1333.
 * 4 x E7540:  Quad Intel Xeon E7540. Six cores with Turbo and Hyper Threading for 48 virtual cores, 32K Data and Instruction L1 caches, 256K L2 cache, 18432K L3 cache.  32 x 4096MB DDR3/1066.
@@ -240,9 +240,9 @@ E5506     4     2.13GHz DDR3/800  7826   9016  9273  9297
 2 X E5520 8     2.27GHz DDR3/1066 7548   9841  9377  9754  12101 13176
 X4 955    4     3.2GHz  DDR3/1333 6750   7150  7286  7258 
 X6 1055T  6     3.2GHz  DDR3/1333 7207   8657  9873  9772  9932*
-i860      8     2.8GHz  DDR3/1600 9664   13096 13959 14293 13231
-i870      8     2.93GHz DDR3/1600 10022  12714 13698 13909 12787
-i870[2]   8     2.93GHz DDR3/1600 9354   11935 13145 13853 12598
+i7-860    8     2.8GHz  DDR3/1600 9664   13096 13959 14293 13231
+i7-870    8     2.93GHz DDR3/1600 10022  12714 13698 13909 12787
+i7-870[2] 8     2.93GHz DDR3/1600 9354   11935 13145 13853 12598
 2 X E5620 16    2.4GHz  DDR3/1333 9514   16845 17960 22544 21744 19083
 2 X X5560 16    2.8GHz  DDR3/1333 11658  18382 19918 24546 23407 29215
 4 X E7540 48    2.0GHz  DDR3/1066 4992   9967  14926 18727 31685 35566 35488 35973 35284 
@@ -287,6 +287,14 @@ Todo
   with other systems, similar to the CSV output mode of
   bonnie++, would make this program more useful.
 
+* Some early cache size detection code has been written for OS X.
+  But the program doesn't do anything useful there; it will just run
+  normal STREAM many times.  The standard Apple compiler chain doesn't
+  support OpenMP, and changing an OpenMP environment variable is the way
+  core count is limited in this program.  You'll get this linker error::
+
+  ld: library not found for -lgomp
+ 
 Limitations
 ===========
 

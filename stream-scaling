@@ -333,7 +333,7 @@ if [ -f stream ] ; then
   rm stream
 fi
 
-gcc -O3 $ARRAY_FLAG stream.c -o stream # -fopenmp
+gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream
 if [ $? -ne 0 ] ; then
   # The most likely way the program will fail to compile is if it's
   # trying to use more memory than will fit on the standard gcc memory
@@ -345,7 +345,7 @@ if [ $? -ne 0 ] ; then
   # gcc version.
   echo === Trying large memory model ===
   echo \(this can take a while to compile\)
-  gcc -O3 $ARRAY_FLAG stream.c -o stream -mcmodel=large # -fopenmp
+  gcc -O3 $ARRAY_FLAG -fopenmp stream.c -o stream -mcmodel=large # -fopenmp
 fi
 
 if [ ! -x stream ] ; then

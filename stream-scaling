@@ -10,14 +10,17 @@
 #
 # Compiling stream on mainstream Linux systems requires gcc 4.2
 # for the OpenMP libraries used here to be available.
-#
+
 # The default way stream is compiled, it operates on a array of
 # 2,000,000 elements taking up approximately 46MB of RAM.  If the
 # total amount of processor cache on your system exceeds this amount,
 # that means more of the data will fit in cache than intended, and
 # the results will be inflated.  Accordingly, this cache size is
 # estimated (in a way that only works on Linux), and the size of
-# the array used is increased to be twice as large as that total.
+# the array used is increased to be 10X as large as that total.
+# The STREAM source code itself suggests a 4X multiplier should
+# be enough.
+STREAM_MIN=10000000
 
 # Limit the maximum array sized used so that the data structure fits
 # into a memory block without overflow.  This makes for about 3GB
@@ -25,7 +28,6 @@
 # and just fits on most 64-bit systems.  A lower limit may
 # be needed on some sytems.
 MAX_ARRAY_SIZE=130000000
-STREAM_MIN=10000000
 
 #
 # Look for sysctl on this system.  It's often not in non-root user's PATH.
@@ -46,7 +48,7 @@ fi
 #
 # Determine maximum cores to test
 #
-
+# TODO GNUP coreutils nproc might be useful for some non-Linux systems
 if [ -n "$1" ] ; then
   MAX_CORES="$1"
 elif [ -f "/proc/cpuinfo" ] ; then

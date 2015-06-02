@@ -367,7 +367,7 @@ The project is hosted at http://github.com/gregs1104/stream-scaling
 
 If you have any hints, changes or improvements, please contact:
 
- * Greg Smith greg@2ndQuadrant.com
+ * Greg Smith greg.smith@crunchydatasolutions.com
 
 Credits
 =======
@@ -384,7 +384,7 @@ License
 
 stream-scaling is licensed under a standard 3-clause BSD license.
 
-Copyright (c) 2010, Gregory Smith
+Copyright (c) 2010-2015, Gregory Smith
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without 

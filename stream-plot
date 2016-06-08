@@ -1,8 +1,9 @@
-# gnuplot script to 
+# gnuplot script for stream-scaling data
 set autoscale x
 set autoscale y
 set xlabel "Threads"
 set ylabel "Triad MB/s"
+set grid xtics ytics
 set key right bottom
 set terminal png
 set output "stream.png"

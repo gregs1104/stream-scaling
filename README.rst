@@ -223,6 +223,7 @@ can be impressive.
 * 4x X7560:  Quad Intel X7560.  Eight cores with Turbo and Hyper Threading for 64 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 24576K L3 cache.  32 X 4096 DDR3/1066.
 * X7560[2]:  Quad Intel X7560.  Eight cores with Turbo and Hyper Threading disabled, for 32 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 24576K L3 cache.  32 X 4096 DDR3/1066.
 * 4 X 4850:  Quad Intel E7-4850.  Ten cores with Turbo and Hyper Threading for 80 virtual cores.  32K Data and Instruction L1 caches, 256K L2 cache, 24576K L3 cache.  64 X 8192MB DDR3/1333.
+* X3450: Intel Xeon X3450. Quad core with Turbo and Hyper Threading for 8 virtual cores. 32K Data and Instruction L1 caches, 256K L2 cache, 8192K L3 cache. 4 X 4096 DDR3/1333.
 
 ========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 Processor Cores Clock   Memory    1 Core 2     3     4     8     16    24    32    48
@@ -252,6 +253,7 @@ i7-870[2] 8     2.93GHz DDR3/1600 9354   11935 13145 13853 12598
 4 X X7560 64    2.26GHz DDR3/1066 4356   7710  13028 14561 18702 19761 19938 20011 15964
 X7560[2]  32    2.26GHz DDR3/1066 4345   8679  12970 16315 25293 27378 27368 28654
 4 X 4850  80    2.0GHz  DDR3/1333 5932   11571 17404 16000 41932 72351 58657 71384 65395
+X3450     8     2.67GHz DDR3/1333 9728   11127 11147 7232  8392
 ========= ===== ======= ========= ====== ===== ===== ===== ===== ===== ===== ===== =====  
 
 * The result for 6-core processors with 6 threads is shown in the 8-core column.  Only so much space to work with here...
